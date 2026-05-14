@@ -6,6 +6,7 @@ const appStatus = await getAppStatus();
 const downloadUrl = '/download';
 const whatsappUrl = appStatus?.contact_whatsapp || '#';
 const version = appStatus?.latest_version || 'Beta';
+const fileSize = appStatus?.file_size || '~15 MB';
 ---
 
 <section id="beranda" class="relative overflow-hidden pt-32 pb-20 lg:pt-48 lg:pb-32 bg-slate-50">
@@ -45,7 +46,7 @@ const version = appStatus?.latest_version || 'Beta';
           <!-- Tooltip -->
           <div class="absolute -bottom-12 left-1/2 -translate-x-1/2 w-max opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             <div class="bg-slate-900 text-white text-xs py-1 px-3 rounded-md">
-              Ukuran ringan, langsung install.
+              Ukuran {fileSize}, langsung install.
             </div>
           </div>
         </div>

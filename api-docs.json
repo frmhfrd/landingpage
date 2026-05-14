@@ -6,7 +6,7 @@
     },
     "servers": [
         {
-            "url": "https://gampangberes-api.afrddev.my.id/api"
+            "url": "http://localhost:8000/api"
         }
     ],
     "security": [
@@ -685,6 +685,55 @@
                                                 "download_url": {
                                                     "type": "string"
                                                 },
+                                                "contact_whatsapp": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "type": "string",
+                                                            "enum": [
+                                                                ""
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                "whatsapp_contacts": {
+                                                    "description": "Tetap kirim string asli (opsional)",
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "array",
+                                                            "items": {}
+                                                        },
+                                                        {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            },
+                                                            "minItems": 0,
+                                                            "maxItems": 0,
+                                                            "additionalItems": false
+                                                        }
+                                                    ]
+                                                },
+                                                "whatsapp_links": {
+                                                    "type": "array",
+                                                    "description": "Kirim sebagai Array bersih",
+                                                    "items": {}
+                                                },
+                                                "min_deposit": {
+                                                    "type": "integer",
+                                                    "description": "Kirim sebagai Array Link siap pakai"
+                                                },
+                                                "min_deposit_reseller": {
+                                                    "type": "integer"
+                                                },
+                                                "min_deposit_agen": {
+                                                    "type": "integer"
+                                                },
+                                                "min_withdrawal": {
+                                                    "type": "integer"
+                                                },
                                                 "force_update": {
                                                     "type": "boolean"
                                                 },
@@ -715,6 +764,13 @@
                                                 "latest_version",
                                                 "build_number",
                                                 "download_url",
+                                                "contact_whatsapp",
+                                                "whatsapp_contacts",
+                                                "whatsapp_links",
+                                                "min_deposit",
+                                                "min_deposit_reseller",
+                                                "min_deposit_agen",
+                                                "min_withdrawal",
                                                 "force_update",
                                                 "maintenance_mode",
                                                 "message",
@@ -2640,11 +2696,16 @@
                                     "password": {
                                         "type": "string",
                                         "minLength": 6
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "minLength": 6
                                     }
                                 },
                                 "required": [
                                     "otp_code",
-                                    "password"
+                                    "password",
+                                    "password_confirmation"
                                 ]
                             }
                         }
@@ -4924,10 +4985,14 @@
                                 "properties": {
                                     "pin": {
                                         "type": "number"
+                                    },
+                                    "pin_confirmation": {
+                                        "type": "number"
                                     }
                                 },
                                 "required": [
-                                    "pin"
+                                    "pin",
+                                    "pin_confirmation"
                                 ]
                             }
                         }
@@ -5452,11 +5517,11 @@
                                     "amount": {
                                         "type": "number",
                                         "description": "Mentransfer menggunakan nomor HP tujuan",
-                                        "minimum": 1000
+                                        "minimum": 1
                                     },
                                     "pin": {
                                         "type": "string",
-                                        "description": "Minimal transfer Rp 1.000",
+                                        "description": "Minimal transfer Rp 1",
                                         "minLength": 6,
                                         "maxLength": 6
                                     }
@@ -5580,6 +5645,29 @@
                                                 "message"
                                             ]
                                         }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Fitur transfer saldo hanya tersedia khusus untuk Mitra Agen."
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message"
                                     ]
                                 }
                             }
@@ -6491,7 +6579,7 @@
         "/admin/settings/upload-app": {
             "post": {
                 "operationId": "setting.uploadAppFile",
-                "summary": "Upload File APK ke Server Lokal",
+                "summary": "Upload File APK ke Server Lokal & Opsional Kirim Notifikasi",
                 "tags": [
                     "Setting"
                 ],
@@ -6507,6 +6595,27 @@
                                         "format": "binary",
                                         "contentMediaType": "application/octet-stream",
                                         "maxLength": 102400
+                                    },
+                                    "version": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "description": "Max 100MB"
+                                    },
+                                    "send_notification": {
+                                        "type": [
+                                            "boolean",
+                                            "null"
+                                        ],
+                                        "description": "Versi baru aplikasi"
+                                    },
+                                    "notification_title": {
+                                        "type": "string",
+                                        "description": "Apakah mau langsung kirim notif?"
+                                    },
+                                    "notification_body": {
+                                        "type": "string"
                                     }
                                 },
                                 "required": [
@@ -6551,17 +6660,33 @@
                                             "type": "boolean"
                                         },
                                         "message": {
-                                            "type": "string",
-                                            "const": "File aplikasi berhasil diupload ke server."
-                                        },
-                                        "download_url": {
                                             "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "download_url": {
+                                                    "type": "string"
+                                                },
+                                                "version": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {}
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "download_url",
+                                                "version"
+                                            ]
                                         }
                                     },
                                     "required": [
                                         "success",
                                         "message",
-                                        "download_url"
+                                        "data"
                                     ]
                                 }
                             }
@@ -9241,6 +9366,29 @@
                             }
                         }
                     },
+                    "422": {
+                        "description": "Balas dengan 422 agar Bot Catcher memasukkan request ini ke antrean (retry later)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Held: Low Supplier Funds. Admin has been notified."
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
                     "404": {
                         "description": "",
                         "content": {
@@ -9490,11 +9638,10 @@
                                     },
                                     "amount": {
                                         "type": "number",
-                                        "minimum": 50000
+                                        "minimum": 0
                                     },
                                     "pin": {
                                         "type": "string",
-                                        "description": "Misal minimal tarik Rp 50.000",
                                         "minLength": 6,
                                         "maxLength": 6
                                     }
@@ -10716,9 +10863,13 @@
                     "balance": {
                         "type": "number"
                     },
+                    "min_deposit": {
+                        "type": "integer",
+                        "description": "Pastikan format angka benar"
+                    },
                     "monthly_commission_balance": {
                         "type": "number",
-                        "description": "Pastikan format angka benar"
+                        "description": "\ud83d\udd25 Tambahan: Minimal deposit sesuai role"
                     },
                     "downline_count": {
                         "type": "integer",
@@ -10748,6 +10899,7 @@
                     "phone",
                     "role",
                     "balance",
+                    "min_deposit",
                     "monthly_commission_balance",
                     "downline_count",
                     "is_pin_set",

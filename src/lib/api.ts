@@ -23,6 +23,24 @@ export async function getAppStatus() {
       data.contact_whatsapp = `https://wa.me/${data.contact_whatsapp.trim()}`;
     }
     
+    // Add file size if download_url exists
+    if (data.download_url && data.download_url.startsWith('http')) {
+      try {
+        const fileRes = await fetch(data.download_url, { method: 'HEAD' });
+        const size = fileRes.headers.get('content-length');
+        if (size) {
+          const mb = parseInt(size) / (1024 * 1024);
+          data.file_size = `~${Math.round(mb)} MB`;
+        } else {
+          data.file_size = '~15 MB';
+        }
+      } catch (e) {
+        data.file_size = '~15 MB';
+      }
+    } else {
+      data.file_size = '~15 MB';
+    }
+    
     return data;
   } catch (error) {
     console.error('Error fetching app status:', error);

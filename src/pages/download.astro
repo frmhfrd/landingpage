@@ -8,7 +8,8 @@ import { Download, Info, CheckCircle2 } from 'lucide-astro';
 const appStatus = await getAppStatus();
 const downloadUrl = appStatus?.download_url || '#';
 const version = appStatus?.latest_version || '1.0.0';
-const message = appStatus?.message || 'Update tersedia untuk pengalaman yang lebih baik.';
+const fileSize = appStatus?.file_size || '~15 MB';
+const message = appStatus?.message || '';
 const changelog = appStatus?.changelog || null;
 
 // Handle changelog if it's an object/array
@@ -42,11 +43,13 @@ const changelogItems = changelog ? (Array.isArray(changelog) ? changelog : Objec
               </div>
               <div class="flex justify-between">
                 <span class="text-slate-500">Ukuran File</span>
-                <span class="font-bold text-slate-900">~15 MB</span>
+                <span class="font-bold text-slate-900">{fileSize}</span>
               </div>
-              <div class="pt-2">
-                <p class="text-sm text-slate-600 italic">"{message}"</p>
-              </div>
+              {message && (
+                <div class="pt-2">
+                  <p class="text-sm text-slate-600 italic">"{message}"</p>
+                </div>
+              )}
             </div>
           </div>
 
@@ -64,7 +67,7 @@ const changelogItems = changelog ? (Array.isArray(changelog) ? changelog : Objec
                   </li>
                 ))
               ) : (
-                <li class="text-sm text-slate-500 italic">Peningkatan performa dan perbaikan bug rutin.</li>
+                <li class="text-sm text-slate-500 italic">Data tidak tersedia</li>
               )}
             </ul>
           </div>
