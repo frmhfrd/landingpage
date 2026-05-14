@@ -1,0 +1,73 @@
+---
+import { Download, ChevronRight } from 'lucide-astro';
+import { getAppStatus } from '../lib/api';
+
+const appStatus = await getAppStatus();
+const downloadUrl = '/download';
+const whatsappUrl = appStatus?.contact_whatsapp || '#';
+const version = appStatus?.latest_version || 'Beta';
+---
+
+<section id="beranda" class="relative overflow-hidden pt-32 pb-20 lg:pt-48 lg:pb-32 bg-slate-50">
+  <!-- Background Decorations -->
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none">
+    <div class="absolute top-[-10%] right-[-10%] w-[400px] h-[400px] bg-primary/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-[-10%] left-[-10%] w-[300px] h-[300px] bg-secondary/5 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-4xl mx-auto">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold mb-6 animate-fade-in">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+        </span>
+        <span>Versi {version} Terbatas</span>
+      </div>
+      
+      <h1 class="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-slate-900 leading-[1.1] mb-8">
+        Semua Tagihan & Isi Ulang, <span class="text-primary">Gampang Beres</span> dalam Satu Aplikasi!
+      </h1>
+      
+      <p class="text-lg sm:text-xl text-slate-600 mb-10 leading-relaxed max-w-3xl mx-auto">
+        Aplikasi andalan untuk kebutuhan digital harianmu. Harga dasar super murah—cocok untuk dipakai sendiri biar hemat, atau dijual lagi di warung/konter biar untung maksimal.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div class="group relative">
+          <a 
+            href={downloadUrl} 
+            class="flex items-center space-x-3 bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-2xl text-lg font-bold transition-all transform hover:scale-105 shadow-xl shadow-primary/25"
+          >
+            <Download class="w-6 h-6" />
+            <span>Download Aplikasi (APK)</span>
+          </a>
+          <!-- Tooltip -->
+          <div class="absolute -bottom-12 left-1/2 -translate-x-1/2 w-max opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            <div class="bg-slate-900 text-white text-xs py-1 px-3 rounded-md">
+              Ukuran ringan, langsung install.
+            </div>
+          </div>
+        </div>
+        
+        <a 
+          href={whatsappUrl} 
+          class="flex items-center space-x-2 text-slate-600 hover:text-primary px-8 py-4 rounded-2xl text-lg font-semibold transition-colors"
+        >
+          <span>Tanya CS</span>
+          <ChevronRight class="w-5 h-5" />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.8s ease-out forwards;
+  }
+</style>

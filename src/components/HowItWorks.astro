@@ -1,0 +1,67 @@
+---
+const steps = [
+  {
+    number: '01',
+    title: 'Download & Daftar',
+    description: 'Unduh APK Gampang Beres dan daftar menggunakan nomor HP aktif Anda.',
+  },
+  {
+    number: '02',
+    title: 'Isi Saldo (Deposit)',
+    description: 'Tambahkan saldo dengan mudah melalui Transfer Bank atau QRIS (Otomatis).',
+  },
+  {
+    number: '03',
+    title: 'Mulai Transaksi',
+    description: 'Pilih layanan, masukkan nomor tujuan, dan saldo akan otomatis terpotong saat sukses.',
+  },
+];
+---
+
+<section class="py-24 bg-white overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col lg:flex-row items-center justify-between gap-16">
+      <div class="lg:w-1/2">
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-6">Hanya 3 Langkah Mudah untuk Memulai</h2>
+        <p class="text-lg text-slate-600 mb-10">
+          Kami merancang aplikasi Gampang Beres agar mudah digunakan oleh siapa saja, bahkan bagi pemula sekalipun.
+        </p>
+        
+        <div class="space-y-10">
+          {steps.map((step) => (
+            <div class="flex items-start space-x-6">
+              <div class="text-4xl font-black text-primary/20 flex-shrink-0 pt-1">
+                {step.number}
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-slate-900 mb-2">{step.title}</h3>
+                <p class="text-slate-600 leading-relaxed">{step.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Mockup Illustration Placeholder -->
+      <div class="lg:w-1/2 relative">
+        <div class="w-full aspect-[4/5] bg-slate-100 rounded-[3rem] border-[12px] border-slate-900 shadow-2xl overflow-hidden relative">
+          <div class="absolute inset-0 flex items-center justify-center p-12 text-center">
+            <div>
+              <div class="w-24 h-24 bg-white rounded-3xl mx-auto mb-6 shadow-xl flex items-center justify-center overflow-hidden">
+                 <img src="/images/logo/gampangberes.png" alt="Logo" class="w-full h-full object-contain" />
+              </div>
+              <h4 class="text-xl font-bold text-slate-900 mb-2">Gampang Beres App</h4>
+              <p class="text-sm text-slate-500">Antarmuka Bersih & Cepat</p>
+            </div>
+          </div>
+          <!-- Decorative UI bits -->
+          <div class="absolute top-10 left-10 right-10 h-4 bg-slate-200 rounded-full opacity-50"></div>
+          <div class="absolute top-20 left-10 w-32 h-4 bg-slate-200 rounded-full opacity-50"></div>
+          <div class="absolute bottom-10 left-10 right-10 h-20 bg-primary/10 rounded-2xl border border-primary/20"></div>
+        </div>
+        <!-- Accent -->
+        <div class="absolute -z-10 -bottom-10 -right-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl"></div>
+      </div>
+    </div>
+  </div>
+</section>

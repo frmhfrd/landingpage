@@ -1,0 +1,31 @@
+---
+import { Smartphone, Zap, Wallet, Droplets, Monitor, Gamepad2 } from 'lucide-astro';
+
+const services = [
+  { icon: Smartphone, label: 'Pulsa & Data' },
+  { icon: Zap, label: 'Token PLN' },
+  { icon: Wallet, label: 'Top-up E-Wallet' },
+  { icon: Droplets, label: 'PDAM' },
+  { icon: Monitor, label: 'TV Kabel' },
+  { icon: Gamepad2, label: 'Voucher Game' },
+];
+---
+
+<section id="layanan" class="py-16 bg-white border-y border-slate-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <p class="text-center text-sm font-bold text-slate-400 uppercase tracking-widest mb-10">
+      Mendukung ratusan layanan digital di seluruh Indonesia
+    </p>
+    
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+      {services.map((item) => (
+        <div class="flex flex-col items-center justify-center p-4 group">
+          <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-primary/5 group-hover:text-primary transition-all duration-300">
+            <item.icon class="w-8 h-8 text-slate-400 group-hover:text-primary transition-colors" />
+          </div>
+          <span class="text-sm font-semibold text-slate-600 group-hover:text-slate-900 transition-colors">{item.label}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

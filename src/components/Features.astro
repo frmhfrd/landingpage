@@ -1,0 +1,53 @@
+---
+import { Rocket, Tag, ShieldCheck } from 'lucide-astro';
+import { getAppStatus } from '../lib/api';
+
+const appStatus = await getAppStatus();
+const minDepositReseller = appStatus?.min_deposit_reseller || 'Rp 10.000';
+
+const features = [
+  {
+    icon: Rocket,
+    title: 'Transaksi Secepat Kilat',
+    description: 'Terhubung langsung dengan server pusat untuk memastikan setiap transaksi selesai dalam hitungan detik.',
+    color: 'bg-primary',
+  },
+  {
+    icon: Tag,
+    title: 'Harga Dasar Termurah',
+    description: `Nikmati harga reseller sejak hari pertama pendaftaran. Mulai dari ${minDepositReseller}, hemat untuk pribadi, untung untuk jualan.`,
+    color: 'bg-secondary',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Aman & Transparan',
+    description: 'Saldo tersimpan aman dan setiap mutasi tercatat jelas. Keamanan data Anda adalah prioritas kami.',
+    color: 'bg-primary-dark',
+  },
+];
+---
+
+<section id="fitur" class="py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Mengapa Memilih Gampang Beres?</h2>
+      <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+        Kami menghadirkan platform yang memprioritaskan kecepatan, efisiensi biaya, dan keamanan tingkat tinggi.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-12">
+      {features.map((feature) => (
+        <div class="relative group">
+          <div class="mb-8 w-14 h-14 rounded-2xl flex items-center justify-center text-white transition-transform group-hover:scale-110 shadow-lg shadow-slate-200" class:list={[feature.color]}>
+            <feature.icon class="w-7 h-7" />
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 mb-4">{feature.title}</h3>
+          <p class="text-slate-600 leading-relaxed">
+            {feature.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import { getTerms } from '../lib/api';
+
+const terms = await getTerms();
+const title = terms?.title || 'Syarat & Ketentuan';
+const content = terms?.content || 'Syarat & Ketentuan belum diatur oleh admin.';
+---
+
+<Layout title={`${title} - Gampang Beres`}>
+  <Navbar />
+  <main class="pt-32 pb-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl font-extrabold text-slate-900 mb-8">{title}</h1>
+      <div class="prose prose-slate max-w-none prose-headings:text-slate-900 prose-p:text-slate-600 prose-li:text-slate-600">
+        <div set:html={content} />
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>

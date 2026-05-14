@@ -1,0 +1,45 @@
+---
+---
+<div id="splash-screen" class="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center transition-opacity duration-500">
+  <div class="relative">
+    <!-- Logo Container -->
+    <div class="w-24 h-24 mb-8 relative animate-pulse">
+      <img src="/images/logo/gampangberes.png" alt="Logo" class="w-full h-full object-contain" />
+    </div>
+    
+    <!-- Loading Spinner -->
+    <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+      <div class="w-3 h-3 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+      <div class="w-3 h-3 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+      <div class="w-3 h-3 bg-primary rounded-full animate-bounce"></div>
+    </div>
+  </div>
+  
+  <div class="mt-8 text-center">
+    <h2 class="text-2xl font-extrabold text-primary mb-2">Gampang<span class="text-slate-900">Beres</span></h2>
+    <p class="text-slate-500 font-medium animate-pulse text-sm tracking-widest uppercase">Mempersiapkan Transaksi Anda...</p>
+  </div>
+</div>
+
+<style>
+  #splash-screen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  // Hide splash screen when everything is loaded
+  window.addEventListener('load', () => {
+    const splash = document.getElementById('splash-screen');
+    if (splash) {
+      setTimeout(() => {
+        splash.classList.add('fade-out');
+        // Remove from DOM after transition
+        setTimeout(() => {
+          splash.remove();
+        }, 500);
+      }, 800); // Small delay for visual polish
+    }
+  });
+</script>

@@ -1,0 +1,84 @@
+---
+import { Menu, X } from 'lucide-astro';
+import { getAppStatus } from '../lib/api';
+
+const appStatus = await getAppStatus();
+const downloadUrl = '/download';
+---
+
+<nav class="fixed w-full bg-white/80 backdrop-blur-md z-50 border-b border-slate-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-20 items-center">
+      <!-- Logo -->
+      <div class="flex-shrink-0 flex items-center">
+        <a href="#beranda" class="flex items-center space-x-2">
+          <img src="/images/logo/gampangberes nobg.png" alt="Gampang Beres Logo" class="h-12 w-auto" />
+          <span class="text-2xl font-extrabold text-primary">Gampang<span class="text-slate-900">Beres</span></span>
+        </a>
+      </div>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="#beranda" class="text-sm font-medium text-slate-600 hover:text-primary transition-colors">Beranda</a>
+        <a href="#fitur" class="text-sm font-medium text-slate-600 hover:text-primary transition-colors">Fitur</a>
+        <a href="#layanan" class="text-sm font-medium text-slate-600 hover:text-primary transition-colors">Layanan</a>
+        <a href="#kemitraan" class="text-sm font-medium text-slate-600 hover:text-primary transition-colors">Kemitraan</a>
+        <a href="#faq" class="text-sm font-medium text-slate-600 hover:text-primary transition-colors">FAQ</a>
+        <a 
+          href={downloadUrl} 
+          class="bg-primary hover:bg-primary-dark text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-all transform hover:scale-105 shadow-lg shadow-primary/20"
+        >
+          Download APK
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden flex items-center">
+        <button id="mobile-menu-button" class="text-slate-600 hover:text-primary p-2">
+          <Menu class="w-6 h-6" id="menu-icon" />
+          <X class="w-6 h-6 hidden" id="close-icon" />
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-100 px-4 pt-2 pb-6 space-y-2">
+    <a href="#beranda" class="block px-3 py-4 text-base font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-lg">Beranda</a>
+    <a href="#fitur" class="block px-3 py-4 text-base font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-lg">Fitur</a>
+    <a href="#layanan" class="block px-3 py-4 text-base font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-lg">Layanan</a>
+    <a href="#kemitraan" class="block px-3 py-4 text-base font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-lg">Kemitraan</a>
+    <a href="#faq" class="block px-3 py-4 text-base font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-lg">FAQ</a>
+    <div class="pt-4 px-3">
+      <a 
+        href={downloadUrl} 
+        class="block w-full text-center bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-xl text-base font-bold shadow-lg shadow-primary/20"
+      >
+        Download APK
+      </a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  mobileMenuButton?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+    menuIcon?.classList.toggle('hidden');
+    closeIcon?.classList.toggle('hidden');
+  });
+
+  // Close menu when clicking links
+  const mobileLinks = mobileMenu?.querySelectorAll('a');
+  mobileLinks?.forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+      menuIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+    });
+  });
+</script>

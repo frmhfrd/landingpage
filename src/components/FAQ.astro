@@ -1,0 +1,93 @@
+---
+import { ChevronDown } from 'lucide-astro';
+import { getAppStatus } from '../lib/api';
+
+const appStatus = await getAppStatus();
+const minDepositReseller = appStatus?.min_deposit_reseller || 'Rp 10.000';
+const minDepositAgen = appStatus?.min_deposit_agen || 'Rp 500.000';
+const minWithdrawal = appStatus?.min_withdrawal || 'Rp 50.000';
+
+const faqs = [
+  {
+    question: 'Apakah aplikasi Gampang Beres aman digunakan?',
+    answer: 'Sangat aman. Kami menggunakan enkripsi standar industri untuk melindungi data Anda. Saldo Anda tersimpan di sistem kami dengan keamanan berlapis dan setiap transaksi memiliki catatan mutasi yang transparan.',
+  },
+  {
+    question: 'Bagaimana cara menginstall APK secara manual?',
+    answer: 'Setelah download, buka file APK tersebut. Jika muncul peringatan "Install dari sumber tidak dikenal", izinkan di pengaturan HP Anda. Gampang Beres aman dan bebas dari malware.',
+  },
+  {
+    question: 'Apa perbedaan antara Reseller dan Agen?',
+    answer: `Reseller adalah tingkatan dasar untuk pemakaian pribadi dengan minimal deposit ${minDepositReseller}. Agen memiliki harga dasar yang lebih murah (wholesale) dengan minimal deposit awal ${minDepositAgen}, sangat cocok untuk bisnis konter pulsa.`,
+  },
+  {
+    question: 'Metode deposit apa saja yang tersedia?',
+    answer: `Anda bisa mengisi saldo melalui Transfer Bank (BCA, Mandiri, BNI, BRI) atau melalui QRIS yang mendukung semua aplikasi pembayaran digital dan mobile banking secara otomatis 24 jam.`,
+  },
+  {
+    question: 'Berapa minimal penarikan saldo (withdrawal)?',
+    answer: `Anda dapat menarik kembali saldo Anda ke rekening bank dengan minimal penarikan sebesar ${minWithdrawal}. Proses penarikan dilakukan dengan cepat pada jam operasional.`,
+  },
+];
+---
+
+<section id="faq" class="py-24 bg-slate-50">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Pertanyaan yang Sering Diajukan</h2>
+      <p class="text-lg text-slate-600">
+        Punya pertanyaan lain? Hubungi Customer Service kami via WhatsApp.
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      {faqs.map((faq, index) => (
+        <div class="group bg-white rounded-2xl border border-slate-100 overflow-hidden transition-all duration-300 hover:shadow-md">
+          <button 
+            class="faq-button flex items-center justify-between w-full p-6 text-left"
+            data-index={index}
+          >
+            <span class="text-lg font-bold text-slate-900 group-hover:text-primary transition-colors">{faq.question}</span>
+            <ChevronDown class="w-5 h-5 text-slate-400 group-hover:text-primary transition-transform duration-300 faq-icon" />
+          </button>
+          <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+            <div class="p-6 pt-0 text-slate-600 leading-relaxed border-t border-slate-50">
+              {faq.answer}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const faqButtons = document.querySelectorAll('.faq-button');
+  
+  faqButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const container = button.closest('.group');
+      const answer = container?.querySelector('.faq-answer');
+      const icon = button.querySelector('.faq-icon');
+      
+      // Close other open FAQs
+      document.querySelectorAll('.faq-answer').forEach(el => {
+        if (el !== answer) {
+          (el as HTMLElement).style.maxHeight = '0';
+        }
+      });
+      document.querySelectorAll('.faq-icon').forEach(el => {
+        if (el !== icon) {
+          el.classList.remove('rotate-180');
+        }
+      });
+
+      // Toggle current FAQ
+      if (answer) {
+        const isOpening = (answer as HTMLElement).style.maxHeight === '0px' || (answer as HTMLElement).style.maxHeight === '';
+        (answer as HTMLElement).style.maxHeight = isOpening ? `${(answer as HTMLElement).scrollHeight}px` : '0';
+        icon?.classList.toggle('rotate-180', isOpening);
+      }
+    });
+  });
+</script>

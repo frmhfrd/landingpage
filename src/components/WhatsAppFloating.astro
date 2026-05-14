@@ -1,0 +1,102 @@
+---
+import { MessageCircle, X, Phone } from 'lucide-astro';
+import { getWhatsAppContacts } from '../lib/api';
+
+const contacts = await getWhatsAppContacts();
+---
+
+<div class="fixed bottom-8 right-8 z-50 flex flex-col items-end">
+  <!-- Contact List Tooltip/Menu -->
+  <div 
+    id="whatsapp-menu" 
+    class="mb-4 bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden w-72 transform scale-90 opacity-0 pointer-events-none transition-all duration-300 origin-bottom-right"
+  >
+    <div class="bg-primary p-6 text-white">
+      <div class="flex justify-between items-center mb-2">
+        <h3 class="font-bold text-lg">Hubungi Kami</h3>
+        <button id="close-whatsapp" class="hover:bg-white/20 p-1 rounded-full transition-colors">
+          <X class="w-5 h-5" />
+        </button>
+      </div>
+      <p class="text-white/80 text-sm">Pilih salah satu nomor WhatsApp di bawah untuk memulai chat.</p>
+    </div>
+    
+    <div class="p-4 space-y-3 max-h-96 overflow-y-auto">
+      {contacts.map((contact, index) => (
+        <a 
+          href={contact.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center space-x-4 p-4 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100 group"
+        >
+          <div class="w-12 h-12 bg-[#25D366]/10 text-[#25D366] rounded-xl flex items-center justify-center group-hover:bg-[#25D366] group-hover:text-white transition-all">
+            <Phone class="w-6 h-6" />
+          </div>
+          <div>
+            <span class="block font-bold text-slate-900">Customer Service {index + 1}</span>
+            <span class="text-sm text-slate-500">{contact.number}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+    
+    <div class="bg-slate-50 p-4 text-center">
+      <p class="text-xs text-slate-400 font-medium">Jam Operasional: 08.00 - 22.00 WIB</p>
+    </div>
+  </div>
+
+  <!-- Main Floating Button -->
+  <button 
+    id="whatsapp-trigger"
+    class="bg-[#25D366] text-white p-4 rounded-full shadow-2xl transition-all hover:scale-110 hover:rotate-6 flex items-center justify-center group"
+    aria-label="Buka menu WhatsApp"
+  >
+    <MessageCircle class="w-8 h-8" />
+    <span class="max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-3 font-bold whitespace-nowrap transition-all duration-500 ease-in-out">
+      Tanya CS
+    </span>
+  </button>
+</div>
+
+<style>
+  @keyframes pulse-green {
+    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+  }
+  #whatsapp-trigger {
+    animation: pulse-green 2s infinite;
+  }
+  #whatsapp-menu.active {
+    transform: scale(1);
+    opacity: 1;
+    pointer-events: auto;
+  }
+</style>
+
+<script>
+  const trigger = document.getElementById('whatsapp-trigger');
+  const menu = document.getElementById('whatsapp-menu');
+  const closeBtn = document.getElementById('close-whatsapp');
+
+  const toggleMenu = () => {
+    menu?.classList.toggle('active');
+  };
+
+  trigger?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMenu();
+  });
+
+  closeBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    menu?.classList.remove('active');
+  });
+
+  // Close when clicking outside
+  document.addEventListener('click', (e) => {
+    if (menu?.classList.contains('active') && !menu.contains(e.target as Node)) {
+      menu.classList.remove('active');
+    }
+  });
+</script>

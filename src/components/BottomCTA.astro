@@ -1,0 +1,38 @@
+---
+import { Download } from 'lucide-astro';
+import { getAppStatus } from '../lib/api';
+
+const appStatus = await getAppStatus();
+const downloadUrl = '/download';
+---
+
+<section class="py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-primary rounded-[3rem] p-8 md:p-16 lg:p-24 text-center relative overflow-hidden shadow-2xl shadow-primary/40">
+      <!-- Decoration -->
+      <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+      <div class="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full -ml-32 -mb-32 blur-3xl"></div>
+      
+      <div class="relative z-10 max-w-2xl mx-auto">
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-white mb-8 leading-tight">
+          Siap Mengatur Tagihan dan Untung Maksimal?
+        </h2>
+        <p class="text-xl text-white/80 mb-12">
+          Bergabunglah dengan ribuan pengguna lainnya yang telah beralih ke cara pembayaran yang lebih gampang dan beres.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a 
+            href={downloadUrl} 
+            class="flex items-center space-x-3 bg-white text-primary px-10 py-5 rounded-2xl text-xl font-bold transition-all transform hover:scale-105 hover:shadow-xl"
+          >
+            <Download class="w-6 h-6" />
+            <span>Download APK Sekarang</span>
+          </a>
+        </div>
+        <p class="mt-6 text-white/60 text-sm font-medium">
+          Mendukung Android 5.0 ke atas • Ukuran file ~15MB
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
