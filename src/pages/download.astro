@@ -7,8 +7,8 @@ import { Download, Info, CheckCircle2 } from 'lucide-astro';
 
 const appStatus = await getAppStatus();
 const downloadUrl = appStatus?.download_url || '#';
-const version = appStatus?.latest_version || '1.0.0';
-const fileSize = appStatus?.file_size || '~15 MB';
+const version = appStatus?.latest_version || '';
+const fileSize = appStatus?.file_size || '';
 const message = appStatus?.message || '';
 const changelog = appStatus?.changelog || null;
 
@@ -49,11 +49,11 @@ if (changelog) {
             <div class="space-y-3">
               <div class="flex justify-between">
                 <span class="text-slate-500">Versi Terbaru</span>
-                <span class="font-bold text-slate-900">{version}</span>
+                <span class="font-bold text-slate-900">{version || '-'}</span>
               </div>
               <div class="flex justify-between">
                 <span class="text-slate-500">Ukuran File</span>
-                <span class="font-bold text-slate-900">{fileSize}</span>
+                <span class="font-bold text-slate-900">{fileSize || '-'}</span>
               </div>
               {message && (
                 <div class="pt-2">

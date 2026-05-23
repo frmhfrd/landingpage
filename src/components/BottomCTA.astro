@@ -4,7 +4,7 @@ import { getAppStatus } from '../lib/api';
 
 const appStatus = await getAppStatus();
 const downloadUrl = '/download';
-const fileSize = appStatus?.file_size || '~15 MB';
+const fileSize = appStatus?.file_size || '';
 ---
 
 <section class="py-24 bg-white">
@@ -31,7 +31,7 @@ const fileSize = appStatus?.file_size || '~15 MB';
           </a>
         </div>
         <p class="mt-6 text-white/60 text-sm font-medium">
-          Mendukung Android 5.0 ke atas • Ukuran file {fileSize}
+          Mendukung Android 5.0 ke atas {fileSize && `• Ukuran file ${fileSize}`}
         </p>
       </div>
     </div>

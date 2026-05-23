@@ -94,6 +94,7 @@ export async function getWhatsAppContacts() {
 export async function getBanners() {
   try {
     const response = await fetch(`${API_BASE_URL}/banners`);
+    if (!response.ok) return [];
     const json = await response.json();
     return json.success ? json.data : [];
   } catch (error) {
@@ -105,6 +106,7 @@ export async function getBanners() {
 export async function getAnnouncements() {
   try {
     const response = await fetch(`${API_BASE_URL}/announcements`);
+    if (!response.ok) return [];
     const json = await response.json();
     return json.success ? json.data : [];
   } catch (error) {
@@ -116,6 +118,7 @@ export async function getAnnouncements() {
 export async function getTerms() {
   try {
     const response = await fetch(`${API_BASE_URL}/legal/terms`);
+    if (!response.ok) return null;
     const json = await response.json();
     return json.data;
   } catch (error) {
@@ -127,6 +130,7 @@ export async function getTerms() {
 export async function getPrivacy() {
   try {
     const response = await fetch(`${API_BASE_URL}/legal/privacy`);
+    if (!response.ok) return null;
     const json = await response.json();
     return json.data;
   } catch (error) {
