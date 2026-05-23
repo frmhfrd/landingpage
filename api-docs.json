@@ -6,7 +6,7 @@
     },
     "servers": [
         {
-            "url": "http://localhost:8000/api"
+            "url": "https://api.gampangberes.biz.id/api"
         }
     ],
     "security": [
@@ -40,51 +40,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer"
-                                                    },
-                                                    "title": {
-                                                        "type": "string"
-                                                    },
-                                                    "image": {
-                                                        "type": [
-                                                            "string",
-                                                            "null"
-                                                        ]
-                                                    },
-                                                    "action_type": {
-                                                        "type": "string"
-                                                    },
-                                                    "target_page": {
-                                                        "type": [
-                                                            "string",
-                                                            "null"
-                                                        ]
-                                                    },
-                                                    "search_query": {
-                                                        "type": [
-                                                            "string",
-                                                            "null"
-                                                        ]
-                                                    },
-                                                    "external_url": {
-                                                        "type": [
-                                                            "string",
-                                                            "null"
-                                                        ]
-                                                    }
-                                                },
-                                                "required": [
-                                                    "id",
-                                                    "title",
-                                                    "image",
-                                                    "action_type",
-                                                    "target_page",
-                                                    "search_query",
-                                                    "external_url"
-                                                ]
+                                                "$ref": "#/components/schemas/Announcement"
                                             }
                                         }
                                     },
@@ -133,62 +89,7 @@
                                             "const": "success"
                                         },
                                         "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "string"
-                                                },
-                                                "title": {
-                                                    "type": "string"
-                                                },
-                                                "message": {
-                                                    "type": "string"
-                                                },
-                                                "image": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "type": {
-                                                    "type": "string"
-                                                },
-                                                "is_active": {
-                                                    "type": "boolean"
-                                                },
-                                                "action_type": {
-                                                    "type": "string"
-                                                },
-                                                "target_page": {
-                                                    "type": "string"
-                                                },
-                                                "search_query": {
-                                                    "type": "string"
-                                                },
-                                                "external_url": {
-                                                    "type": "string"
-                                                },
-                                                "created_at": {
-                                                    "type": "string"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "required": [
-                                                "id",
-                                                "title",
-                                                "message",
-                                                "image",
-                                                "type",
-                                                "is_active",
-                                                "action_type",
-                                                "target_page",
-                                                "search_query",
-                                                "external_url",
-                                                "created_at",
-                                                "updated_at"
-                                            ]
+                                            "type": "string"
                                         }
                                     },
                                     "required": [
@@ -305,6 +206,17 @@
                                             "promo",
                                             "warning",
                                             "maintenance"
+                                        ]
+                                    },
+                                    "display_type": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "enum": [
+                                            "banner",
+                                            "popup",
+                                            "marquee"
                                         ]
                                     },
                                     "is_active": {
@@ -437,6 +349,17 @@
                                             "promo",
                                             "warning",
                                             "maintenance"
+                                        ]
+                                    },
+                                    "display_type": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "enum": [
+                                            "banner",
+                                            "popup",
+                                            "marquee"
                                         ]
                                     },
                                     "is_active": {
@@ -699,7 +622,6 @@
                                                     ]
                                                 },
                                                 "whatsapp_contacts": {
-                                                    "description": "Tetap kirim string asli (opsional)",
                                                     "anyOf": [
                                                         {
                                                             "type": "array",
@@ -718,12 +640,10 @@
                                                 },
                                                 "whatsapp_links": {
                                                     "type": "array",
-                                                    "description": "Kirim sebagai Array bersih",
                                                     "items": {}
                                                 },
                                                 "min_deposit": {
-                                                    "type": "integer",
-                                                    "description": "Kirim sebagai Array Link siap pakai"
+                                                    "type": "integer"
                                                 },
                                                 "min_deposit_reseller": {
                                                     "type": "integer"
@@ -734,11 +654,20 @@
                                                 "min_withdrawal": {
                                                     "type": "integer"
                                                 },
+                                                "deposit_expiry_hours": {
+                                                    "type": "integer"
+                                                },
+                                                "transaction_lock_seconds": {
+                                                    "type": "integer"
+                                                },
                                                 "force_update": {
                                                     "type": "boolean"
                                                 },
                                                 "maintenance_mode": {
                                                     "type": "boolean"
+                                                },
+                                                "server_time": {
+                                                    "type": "string"
                                                 },
                                                 "message": {
                                                     "anyOf": [
@@ -771,8 +700,11 @@
                                                 "min_deposit_reseller",
                                                 "min_deposit_agen",
                                                 "min_withdrawal",
+                                                "deposit_expiry_hours",
+                                                "transaction_lock_seconds",
                                                 "force_update",
                                                 "maintenance_mode",
+                                                "server_time",
                                                 "message",
                                                 "changelog"
                                             ]
@@ -838,12 +770,20 @@
                                                 "access_token": {
                                                     "type": "string"
                                                 },
+                                                "refresh_token": {
+                                                    "type": "string"
+                                                },
                                                 "token_type": {
                                                     "type": "string",
                                                     "const": "Bearer"
                                                 },
+                                                "expires_in": {
+                                                    "type": "integer",
+                                                    "const": 3600
+                                                },
                                                 "user": {
                                                     "type": "object",
+                                                    "description": "1 jam",
                                                     "properties": {
                                                         "id": {
                                                             "type": "string"
@@ -868,12 +808,18 @@
                                                         "email",
                                                         "is_pin_set"
                                                     ]
+                                                },
+                                                "server_time": {
+                                                    "type": "string"
                                                 }
                                             },
                                             "required": [
                                                 "access_token",
+                                                "refresh_token",
                                                 "token_type",
-                                                "user"
+                                                "expires_in",
+                                                "user",
+                                                "server_time"
                                             ]
                                         }
                                     },
@@ -962,6 +908,129 @@
                 }
             }
         },
+        "/refresh": {
+            "post": {
+                "operationId": "auth.refresh",
+                "summary": "Endpoint untuk Refresh Token\nMenghasilkan pasangan access_token dan refresh_token baru",
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Token berhasil diperbarui."
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "access_token": {
+                                                    "type": "string"
+                                                },
+                                                "refresh_token": {
+                                                    "type": "string"
+                                                },
+                                                "token_type": {
+                                                    "type": "string",
+                                                    "const": "Bearer"
+                                                },
+                                                "expires_in": {
+                                                    "type": "integer",
+                                                    "const": 3600
+                                                },
+                                                "server_time": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "access_token",
+                                                "refresh_token",
+                                                "token_type",
+                                                "expires_in",
+                                                "server_time"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "success": {
+                                                    "type": "boolean"
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "const": "Sesi perangkat tidak valid."
+                                                }
+                                            },
+                                            "required": [
+                                                "success",
+                                                "message"
+                                            ]
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "success": {
+                                                    "type": "boolean"
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "const": "Refresh token tidak valid atau telah kadaluwarsa."
+                                                }
+                                            },
+                                            "required": [
+                                                "success",
+                                                "message"
+                                            ]
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "success": {
+                                                    "type": "boolean"
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "const": "Refresh token tidak ditemukan."
+                                                }
+                                            },
+                                            "required": [
+                                                "success",
+                                                "message"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/register": {
             "post": {
                 "operationId": "auth.register",
@@ -987,6 +1056,12 @@
                                     "phone": {
                                         "type": "string",
                                         "maxLength": 20
+                                    },
+                                    "address": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
                                     },
                                     "password": {
                                         "type": "string",
@@ -1081,6 +1156,426 @@
                                     "required": [
                                         "success",
                                         "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/banners": {
+            "get": {
+                "operationId": "banner.index",
+                "summary": "Menampilkan daftar banner aktif untuk aplikasi mobile",
+                "tags": [
+                    "Banner"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Daftar banner promo berhasil diambil."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "title": {
+                                                        "type": "string"
+                                                    },
+                                                    "image": {
+                                                        "type": "string"
+                                                    },
+                                                    "link_url": {
+                                                        "type": "string",
+                                                        "description": "Menggunakan accessor image_url dari model"
+                                                    },
+                                                    "order": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "id",
+                                                    "title",
+                                                    "image",
+                                                    "link_url",
+                                                    "order"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/banners": {
+            "get": {
+                "operationId": "admin.banner.index",
+                "summary": "List semua banner (aktif maupun tidak) untuk dikelola Admin",
+                "tags": [
+                    "Banner"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Banner"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "banner.store",
+                "summary": "Tambah Banner Baru",
+                "tags": [
+                    "Banner"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "maxLength": 255
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "contentMediaType": "application/octet-stream",
+                                        "maxLength": 2048
+                                    },
+                                    "link_url": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "description": "Max 2MB"
+                                    },
+                                    "order": {
+                                        "type": [
+                                            "integer",
+                                            "null"
+                                        ]
+                                    },
+                                    "is_active": {
+                                        "type": [
+                                            "boolean",
+                                            "null"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "image"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "File gambar tidak ditemukan."
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Banner berhasil ditambahkan."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Banner"
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/admin/banners/{id}": {
+            "post": {
+                "operationId": "banner.update",
+                "summary": "Update Data Banner",
+                "tags": [
+                    "Banner"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "maxLength": 255
+                                    },
+                                    "image": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "format": "binary",
+                                        "contentMediaType": "application/octet-stream",
+                                        "maxLength": 2048
+                                    },
+                                    "link_url": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "order": {
+                                        "type": [
+                                            "integer",
+                                            "null"
+                                        ]
+                                    },
+                                    "is_active": {
+                                        "type": [
+                                            "boolean",
+                                            "null"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Banner berhasil diperbarui."
+                                        },
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "banner.destroy",
+                "summary": "Hapus Banner",
+                "tags": [
+                    "Banner"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Banner berhasil dihapus."
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/admin/banners/{id}/toggle": {
+            "post": {
+                "operationId": "banner.toggleActive",
+                "summary": "Toggle status aktif/non-aktif banner dengan cepat",
+                "tags": [
+                    "Banner"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Status banner berhasil diubah."
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "is_active": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "is_active"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "data"
                                     ]
                                 }
                             }
@@ -3835,6 +4330,162 @@
                 }
             }
         },
+        "/admin/notification-templates": {
+            "get": {
+                "operationId": "notificationTemplate.index",
+                "summary": "List all templates",
+                "tags": [
+                    "NotificationTemplate"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/NotificationTemplate"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/admin/notification-templates/{id}": {
+            "put": {
+                "operationId": "notificationTemplate.update",
+                "summary": "Update a template",
+                "tags": [
+                    "NotificationTemplate"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "maxLength": 255
+                                    },
+                                    "body": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "body"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/admin/notification-templates/available": {
+            "get": {
+                "operationId": "notificationTemplate.getAvailableTemplates",
+                "summary": "Helper for frontend to get list of slugs and their placeholders",
+                "tags": [
+                    "NotificationTemplate"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/NotificationTemplate"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
         "/config/postpaid-categories": {
             "get": {
                 "operationId": "postpaidCategory.index",
@@ -4508,6 +5159,58 @@
                 }
             }
         },
+        "/admin/products/troubled-summary": {
+            "get": {
+                "operationId": "product.troubledProductsSummary",
+                "summary": "[BARU] Mendapatkan ringkasan produk yang sedang gangguan/nonaktif\nCocok untuk widget Dashboard Admin",
+                "tags": [
+                    "Product"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "total_inactive": {
+                                                    "type": "integer",
+                                                    "minimum": 0
+                                                },
+                                                "breakdown": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Product"
+                                                    }
+                                                }
+                                            },
+                                            "required": [
+                                                "total_inactive",
+                                                "breakdown"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
         "/admin/products/{id}": {
             "get": {
                 "operationId": "product.show",
@@ -4773,12 +5476,16 @@
                                         },
                                         "data": {
                                             "$ref": "#/components/schemas/UserResource"
+                                        },
+                                        "server_time": {
+                                            "type": "string"
                                         }
                                     },
                                     "required": [
                                         "success",
                                         "message",
-                                        "data"
+                                        "data",
+                                        "server_time"
                                     ]
                                 }
                             }
@@ -4809,6 +5516,12 @@
                                     "phone": {
                                         "type": "string",
                                         "maxLength": 20
+                                    },
+                                    "address": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
                                     },
                                     "password": {
                                         "type": "string"
@@ -4869,6 +5582,125 @@
                                     "required": [
                                         "success",
                                         "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/profile/avatar": {
+            "post": {
+                "operationId": "profile.updateAvatar",
+                "summary": "Endpoint untuk Mengunggah Foto Profil (Avatar)",
+                "tags": [
+                    "Profile"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "avatar": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "contentMediaType": "application/octet-stream",
+                                        "maxLength": 5120
+                                    }
+                                },
+                                "required": [
+                                    "avatar"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "File tidak ditemukan."
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Gagal mengunggah foto profil. Silakan coba lagi."
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Foto profil berhasil diperbarui."
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "avatar_url": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "avatar_url"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "data"
                                     ]
                                 }
                             }
@@ -5307,6 +6139,116 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/public/verify/{hash}": {
+            "get": {
+                "operationId": "publicTransaction.verify",
+                "summary": "API Verifikasi Transaksi Publik (Untuk SPA)",
+                "tags": [
+                    "PublicTransaction"
+                ],
+                "parameters": [
+                    {
+                        "name": "hash",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "status": {
+                                                    "type": "string"
+                                                },
+                                                "type": {
+                                                    "type": "string"
+                                                },
+                                                "product_name": {
+                                                    "type": "string"
+                                                },
+                                                "invoice_code": {
+                                                    "type": "string"
+                                                },
+                                                "target_number": {
+                                                    "type": "string"
+                                                },
+                                                "customer_name": {
+                                                    "type": "string"
+                                                },
+                                                "amount": {
+                                                    "type": "string"
+                                                },
+                                                "created_at": {
+                                                    "type": "string"
+                                                },
+                                                "sn": {
+                                                    "type": "string"
+                                                },
+                                                "details": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "status",
+                                                "type",
+                                                "product_name",
+                                                "invoice_code",
+                                                "target_number",
+                                                "customer_name",
+                                                "amount",
+                                                "created_at",
+                                                "sn",
+                                                "details"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Data transaksi tidak ditemukan atau URL tidak valid."
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -6875,7 +7817,6 @@
                                     },
                                     "pin": {
                                         "type": "string",
-                                        "description": "Pastikan user mengirim PIN 6 digit",
                                         "minLength": 6,
                                         "maxLength": 6
                                     }
@@ -6891,7 +7832,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Respons jika transaksi Sukses atau Sedang Diproses (Processing)",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -6950,7 +7891,7 @@
                                                 },
                                                 "message": {
                                                     "type": "string",
-                                                    "const": "Saldo tidak mencukupi. Silakan lakukan deposit terlebih dahulu."
+                                                    "const": "Saldo tidak mencukupi."
                                                 }
                                             },
                                             "required": [
@@ -7036,7 +7977,7 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "const": "\ud83d\udea7 Layanan sedang dalam perbaikan (Maintenance) untuk peningkatan performa. Transaksi baru ditangguhkan sementara, namun transaksi yang sedang diproses (Pending) dan saldo Anda dijamin 100% aman."
+                                            "const": "\ud83d\udea7 Layanan sedang dalam perbaikan (Maintenance) untuk peningkatan performa. Transaksi baru ditangguhkan sementara."
                                         }
                                     },
                                     "required": [
@@ -7117,7 +8058,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Expired dalam 15 menit",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7137,8 +8078,7 @@
                                                     "type": "string"
                                                 },
                                                 "customer_no": {
-                                                    "type": "string",
-                                                    "description": "Wajib disimpan oleh Frontend untuk dikirim saat bayar"
+                                                    "type": "string"
                                                 },
                                                 "customer_name": {
                                                     "type": "string"
@@ -7447,7 +8387,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "4. Berikan respons manis ke User",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7458,7 +8398,7 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "const": "Komplain Anda berhasil dikirim ke Tim Support. Kami akan segera memprosesnya!"
+                                            "const": "Komplain Anda berhasil dikirim!"
                                         }
                                     },
                                     "required": [
@@ -7533,17 +8473,7 @@
                                             "type": "object",
                                             "properties": {
                                                 "store_name": {
-                                                    "anyOf": [
-                                                        {
-                                                            "type": "string"
-                                                        },
-                                                        {
-                                                            "type": "string",
-                                                            "enum": [
-                                                                "GampangBeres Reload"
-                                                            ]
-                                                        }
-                                                    ]
+                                                    "type": "string"
                                                 },
                                                 "store_address": {
                                                     "anyOf": [
@@ -7551,9 +8481,12 @@
                                                             "type": "string"
                                                         },
                                                         {
+                                                            "type": "null"
+                                                        },
+                                                        {
                                                             "type": "string",
                                                             "enum": [
-                                                                "Pusat Layanan PPOB Terpercaya"
+                                                                "-"
                                                             ]
                                                         }
                                                     ]
@@ -7575,8 +8508,7 @@
                                                     "type": "string"
                                                 },
                                                 "invoice_code": {
-                                                    "type": "string",
-                                                    "description": "Detail Transaksi"
+                                                    "type": "string"
                                                 },
                                                 "date": {
                                                     "type": "string"
@@ -7587,8 +8519,7 @@
                                                 "target_number": {
                                                     "type": "string"
                                                 },
-                                                "sn": {
-                                                    "description": "Tampilkan SN, jika masih processing biasanya kosong, kita set default '-'",
+                                                "customer_name": {
                                                     "anyOf": [
                                                         {
                                                             "type": "string"
@@ -7601,13 +8532,27 @@
                                                         }
                                                     ]
                                                 },
+                                                "sn": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "type": "string",
+                                                            "enum": [
+                                                                "-"
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                "details": {
+                                                    "type": "string"
+                                                },
                                                 "status": {
-                                                    "type": "string",
-                                                    "description": "Status akan otomatis tertulis PROCESSING atau PENDING di struk"
+                                                    "type": "string"
                                                 },
                                                 "base_price": {
-                                                    "type": "string",
-                                                    "description": "Harga Asli (Modal Agen).\nNanti di Frontend, Agen bisa mengubah angka ini sebelum di-print!"
+                                                    "type": "string"
                                                 },
                                                 "footer_text": {
                                                     "anyOf": [
@@ -7621,6 +8566,9 @@
                                                             ]
                                                         }
                                                     ]
+                                                },
+                                                "verification_url": {
+                                                    "type": "string"
                                                 }
                                             },
                                             "required": [
@@ -7632,10 +8580,13 @@
                                                 "date",
                                                 "product_name",
                                                 "target_number",
+                                                "customer_name",
                                                 "sn",
+                                                "details",
                                                 "status",
                                                 "base_price",
-                                                "footer_text"
+                                                "footer_text",
+                                                "verification_url"
                                             ]
                                         }
                                     },
@@ -7660,7 +8611,7 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "const": "Struk tidak dapat dicetak untuk transaksi yang Gagal."
+                                            "const": "Struk tidak dapat dicetak untuk transaksi Gagal."
                                         }
                                     },
                                     "required": [
@@ -10169,6 +11120,9 @@
                             "null"
                         ],
                         "format": "date-time"
+                    },
+                    "image_url": {
+                        "type": "string"
                     }
                 },
                 "required": [
@@ -10183,9 +11137,22 @@
                     "search_query",
                     "external_url",
                     "created_at",
-                    "updated_at"
+                    "updated_at",
+                    "image_url"
                 ],
                 "title": "Announcement"
+            },
+            "Banner": {
+                "type": "object",
+                "properties": {
+                    "image_url": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "image_url"
+                ],
+                "title": "Banner"
             },
             "Complaint": {
                 "type": "object",
@@ -10400,6 +11367,16 @@
                 ],
                 "title": "Notification"
             },
+            "NotificationTemplate": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "minItems": 0,
+                "maxItems": 0,
+                "additionalItems": false,
+                "title": "NotificationTemplate"
+            },
             "Product": {
                 "type": "object",
                 "properties": {
@@ -10540,7 +11517,16 @@
                         "type": "integer"
                     },
                     "product_id": {
-                        "type": "integer"
+                        "type": [
+                            "integer",
+                            "null"
+                        ]
+                    },
+                    "sku": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "product_name": {
                         "type": [
@@ -10551,14 +11537,33 @@
                     "invoice_code": {
                         "type": "string"
                     },
+                    "hash": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
                     "target_number": {
                         "type": "string"
+                    },
+                    "customer_name": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "sn": {
                         "type": [
                             "string",
                             "null"
                         ]
+                    },
+                    "details": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "items": {}
                     },
                     "seller_wa": {
                         "type": [
@@ -10630,16 +11635,23 @@
                     },
                     "seller_tele_link": {
                         "type": "string"
+                    },
+                    "verification_url": {
+                        "type": "string"
                     }
                 },
                 "required": [
                     "id",
                     "user_id",
                     "product_id",
+                    "sku",
                     "product_name",
                     "invoice_code",
+                    "hash",
                     "target_number",
+                    "customer_name",
                     "sn",
+                    "details",
                     "seller_wa",
                     "seller_tele",
                     "wa",
@@ -10654,7 +11666,8 @@
                     "created_at",
                     "updated_at",
                     "seller_wa_link",
-                    "seller_tele_link"
+                    "seller_tele_link",
+                    "verification_url"
                 ],
                 "title": "Transaction"
             },
@@ -10676,6 +11689,18 @@
                     "phone": {
                         "type": "string"
                     },
+                    "address": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "avatar": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
                     "referral_code": {
                         "type": [
                             "string",
@@ -10688,9 +11713,6 @@
                             "null"
                         ]
                     },
-                    "markup": {
-                        "type": "integer"
-                    },
                     "otp_expires_at": {
                         "type": [
                             "string",
@@ -10699,24 +11721,6 @@
                         "format": "date-time"
                     },
                     "phone_verified_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ]
-                    },
-                    "two_factor_secret": {
-                        "type": [
-                            "string",
-                            "null"
-                        ]
-                    },
-                    "two_factor_recovery_codes": {
-                        "type": [
-                            "string",
-                            "null"
-                        ]
-                    },
-                    "two_factor_confirmed_at": {
                         "type": [
                             "string",
                             "null"
@@ -10744,6 +11748,9 @@
                             "null"
                         ],
                         "format": "date-time"
+                    },
+                    "avatar_url": {
+                        "type": "string"
                     }
                 },
                 "required": [
@@ -10751,19 +11758,18 @@
                     "upline_id",
                     "name",
                     "phone",
+                    "address",
+                    "avatar",
                     "referral_code",
                     "email",
-                    "markup",
                     "otp_expires_at",
                     "phone_verified_at",
-                    "two_factor_secret",
-                    "two_factor_recovery_codes",
-                    "two_factor_confirmed_at",
                     "role",
                     "balance",
                     "is_active",
                     "created_at",
-                    "updated_at"
+                    "updated_at",
+                    "avatar_url"
                 ],
                 "title": "User"
             },
@@ -10857,6 +11863,15 @@
                     "phone": {
                         "type": "string"
                     },
+                    "address": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "avatar_url": {
+                        "type": "string"
+                    },
                     "role": {
                         "type": "string"
                     },
@@ -10897,6 +11912,8 @@
                     "name",
                     "email",
                     "phone",
+                    "address",
+                    "avatar_url",
                     "role",
                     "balance",
                     "min_deposit",

@@ -1,4 +1,17 @@
 const API_BASE_URL = import.meta.env.PUBLIC_API_BASE_URL;
+const BASE_URL = API_BASE_URL.replace('/api', '');
+
+export const formatCurrency = (value: number | string | undefined | null) => {
+  if (value === undefined || value === null) return '';
+  const num = typeof value === 'string' ? parseInt(value) : value;
+  if (isNaN(num)) return value.toString();
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(num);
+};
 
 export async function getAppStatus() {
   try {
@@ -23,6 +36,11 @@ export async function getAppStatus() {
       data.contact_whatsapp = `https://wa.me/${data.contact_whatsapp.trim()}`;
     }
     
+    // 4. Handle download_url - ensure absolute URL
+    if (data.download_url && !data.download_url.startsWith('http')) {
+      data.download_url = `${BASE_URL}${data.download_url.startsWith('/') ? '' : '/'}${data.download_url}`;
+    }
+
     // Add file size if download_url exists
     if (data.download_url && data.download_url.startsWith('http')) {
       try {
@@ -31,14 +49,10 @@ export async function getAppStatus() {
         if (size) {
           const mb = parseInt(size) / (1024 * 1024);
           data.file_size = `~${Math.round(mb)} MB`;
-        } else {
-          data.file_size = '~15 MB';
         }
       } catch (e) {
-        data.file_size = '~15 MB';
+        // Ignore errors, file_size will be undefined
       }
-    } else {
-      data.file_size = '~15 MB';
     }
     
     return data;
@@ -73,6 +87,28 @@ export async function getWhatsAppContacts() {
     }));
   } catch (error) {
     console.error('Error fetching whatsapp contacts:', error);
+    return [];
+  }
+}
+
+export async function getBanners() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/banners`);
+    const json = await response.json();
+    return json.success ? json.data : [];
+  } catch (error) {
+    console.error('Error fetching banners:', error);
+    return [];
+  }
+}
+
+export async function getAnnouncements() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/announcements`);
+    const json = await response.json();
+    return json.success ? json.data : [];
+  } catch (error) {
+    console.error('Error fetching announcements:', error);
     return [];
   }
 }

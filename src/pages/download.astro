@@ -13,7 +13,17 @@ const message = appStatus?.message || '';
 const changelog = appStatus?.changelog || null;
 
 // Handle changelog if it's an object/array
-const changelogItems = changelog ? (Array.isArray(changelog) ? changelog : Object.values(changelog)) : [];
+// In some cases it's an object with version as key, e.g. {"1.0.0": ["fix bug"]}
+// In other cases it's just an array of strings.
+let changelogItems: string[] = [];
+if (changelog) {
+  if (Array.isArray(changelog)) {
+    changelogItems = changelog;
+  } else if (typeof changelog === 'object') {
+    // If it's an object, we take all values and flatten them
+    changelogItems = Object.values(changelog).flat().map(item => String(item));
+  }
+}
 ---
 
 <Layout title="Download APK - Gampang Beres">
@@ -63,7 +73,7 @@ const changelogItems = changelog ? (Array.isArray(changelog) ? changelog : Objec
                 changelogItems.map((item) => (
                   <li class="text-sm text-slate-600 flex items-start space-x-2">
                     <span class="text-secondary mt-1">•</span>
-                    <span>{typeof item === 'string' ? item : JSON.stringify(item)}</span>
+                    <span>{item}</span>
                   </li>
                 ))
               ) : (

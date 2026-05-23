@@ -5,8 +5,8 @@ import { getAppStatus } from '../lib/api';
 const appStatus = await getAppStatus();
 const downloadUrl = '/download';
 const whatsappUrl = appStatus?.contact_whatsapp || '#';
-const version = appStatus?.latest_version || 'Beta';
-const fileSize = appStatus?.file_size || '~15 MB';
+const version = appStatus?.latest_version || '';
+const fileSize = appStatus?.file_size || '';
 ---
 
 <section id="beranda" class="relative overflow-hidden pt-32 pb-20 lg:pt-48 lg:pb-32 bg-slate-50">
@@ -18,13 +18,15 @@ const fileSize = appStatus?.file_size || '~15 MB';
 
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center max-w-4xl mx-auto">
-      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold mb-6 animate-fade-in">
-        <span class="relative flex h-2 w-2">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-        </span>
-        <span>Versi {version} Terbatas</span>
-      </div>
+      {version && (
+        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold mb-6 animate-fade-in">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+          </span>
+          <span>Versi {version}</span>
+        </div>
+      )}
       
       <h1 class="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-slate-900 leading-[1.1] mb-8">
         Semua Tagihan & Isi Ulang, <span class="text-primary">Gampang Beres</span> dalam Satu Aplikasi!
@@ -44,11 +46,13 @@ const fileSize = appStatus?.file_size || '~15 MB';
             <span>Download Aplikasi (APK)</span>
           </a>
           <!-- Tooltip -->
-          <div class="absolute -bottom-12 left-1/2 -translate-x-1/2 w-max opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            <div class="bg-slate-900 text-white text-xs py-1 px-3 rounded-md">
-              Ukuran {fileSize}, langsung install.
+          {fileSize && (
+            <div class="absolute -bottom-12 left-1/2 -translate-x-1/2 w-max opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <div class="bg-slate-900 text-white text-xs py-1 px-3 rounded-md">
+                Ukuran {fileSize}, langsung install.
+              </div>
             </div>
-          </div>
+          )}
         </div>
         
         <a 

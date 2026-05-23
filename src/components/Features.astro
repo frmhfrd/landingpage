@@ -1,9 +1,9 @@
 ---
 import { Rocket, Tag, ShieldCheck } from 'lucide-astro';
-import { getAppStatus } from '../lib/api';
+import { getAppStatus, formatCurrency } from '../lib/api';
 
 const appStatus = await getAppStatus();
-const minDepositReseller = appStatus?.min_deposit_reseller || 'Rp 10.000';
+const minDepositReseller = formatCurrency(appStatus?.min_deposit_reseller) || 'Sesuai Ketentuan';
 
 const features = [
   {

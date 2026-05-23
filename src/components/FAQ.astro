@@ -1,11 +1,11 @@
 ---
 import { ChevronDown } from 'lucide-astro';
-import { getAppStatus } from '../lib/api';
+import { getAppStatus, formatCurrency } from '../lib/api';
 
 const appStatus = await getAppStatus();
-const minDepositReseller = appStatus?.min_deposit_reseller || 'Rp 10.000';
-const minDepositAgen = appStatus?.min_deposit_agen || 'Rp 500.000';
-const minWithdrawal = appStatus?.min_withdrawal || 'Rp 50.000';
+const minDepositReseller = formatCurrency(appStatus?.min_deposit_reseller) || 'Sesuai Ketentuan';
+const minDepositAgen = formatCurrency(appStatus?.min_deposit_agen) || 'Sesuai Ketentuan';
+const minWithdrawal = formatCurrency(appStatus?.min_withdrawal) || 'Sesuai Ketentuan';
 
 const faqs = [
   {

@@ -1,0 +1,65 @@
+---
+import { getBanners } from '../lib/api';
+
+const banners = await getBanners();
+if (banners.length === 0) return null;
+---
+
+<section class="py-12 bg-white overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-2xl font-bold text-slate-900">Promo Unggulan</h2>
+      <div class="flex space-x-2">
+        <button id="promo-prev" class="p-2 rounded-full border border-slate-200 hover:bg-slate-50 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button id="promo-next" class="p-2 rounded-full border border-slate-200 hover:bg-slate-50 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="promo-slider" class="flex transition-transform duration-500 ease-out gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4">
+      {banners.map((banner) => (
+        <a 
+          href={banner.link_url || '#'} 
+          class="flex-shrink-0 w-full sm:w-[450px] aspect-[2/1] rounded-3xl overflow-hidden snap-center group relative shadow-lg shadow-slate-200/50 border border-slate-100"
+        >
+          <img 
+            src={banner.image} 
+            alt={banner.title} 
+            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+            <h3 class="text-white font-bold text-lg">{banner.title}</h3>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
+
+<script>
+  const slider = document.getElementById('promo-slider');
+  const prev = document.getElementById('promo-prev');
+  const next = document.getElementById('promo-next');
+
+  if (slider && prev && next) {
+    prev.addEventListener('click', () => {
+      slider.scrollBy({ left: -400, behavior: 'smooth' });
+    });
+    next.addEventListener('click', () => {
+      slider.scrollBy({ left: 400, behavior: 'smooth' });
+    });
+  }
+</script>
