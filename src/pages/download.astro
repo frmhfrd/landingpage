@@ -49,15 +49,15 @@ if (changelog) {
             <div class="space-y-3">
               <div class="flex justify-between">
                 <span class="text-slate-500">Versi Terbaru</span>
-                <span class="font-bold text-slate-900">{version || '-'}</span>
+                <span id="latest-version" class="font-bold text-slate-900">{version || '-'}</span>
               </div>
               <div class="flex justify-between">
                 <span class="text-slate-500">Ukuran File</span>
-                <span class="font-bold text-slate-900">{fileSize || '-'}</span>
+                <span id="file-size" class="font-bold text-slate-900">{fileSize || '-'}</span>
               </div>
               {message && (
                 <div class="pt-2">
-                  <p class="text-sm text-slate-600 italic">"{message}"</p>
+                  <p id="app-message" class="text-sm text-slate-600 italic">"{message}"</p>
                 </div>
               )}
             </div>
@@ -68,7 +68,7 @@ if (changelog) {
               <CheckCircle2 class="w-5 h-5" />
               <h2 class="font-bold">Catatan Rilis</h2>
             </div>
-            <ul class="space-y-2">
+            <ul id="changelog-list" class="space-y-2">
               {changelogItems.length > 0 ? (
                 changelogItems.map((item) => (
                   <li class="text-sm text-slate-600 flex items-start space-x-2">
@@ -85,6 +85,7 @@ if (changelog) {
 
         <div class="flex flex-col items-center space-y-6">
           <a 
+            id="manual-download-link"
             href={downloadUrl}
             class="flex items-center space-x-3 bg-primary hover:bg-primary-dark text-white px-10 py-5 rounded-2xl text-xl font-bold transition-all transform hover:scale-105 shadow-xl shadow-primary/25"
           >
@@ -105,11 +106,54 @@ if (changelog) {
   </main>
   <Footer />
 
-  <script define:vars={{ downloadUrl }}>
-    if (downloadUrl && downloadUrl !== '#') {
-      setTimeout(() => {
-        window.location.href = downloadUrl;
-      }, 1500);
+  <script>
+    import { getAppStatus } from '../lib/api';
+
+    async function initDownload() {
+      // Get the latest status from API on client-side to ensure it's always up-to-date
+      try {
+        const appStatus = await getAppStatus();
+        if (appStatus) {
+          const latestDownloadUrl = appStatus.download_url;
+          const downloadLink = document.getElementById('manual-download-link') as HTMLAnchorElement;
+
+          // Update UI with latest info if available
+          if (appStatus.latest_version) {
+            const versionEl = document.getElementById('latest-version');
+            if (versionEl) versionEl.textContent = appStatus.latest_version;
+          }
+          if (appStatus.file_size) {
+            const sizeEl = document.getElementById('file-size');
+            if (sizeEl) sizeEl.textContent = appStatus.file_size;
+          }
+
+          if (latestDownloadUrl && latestDownloadUrl !== '#') {
+            // Update the link href immediately
+            if (downloadLink) {
+              downloadLink.href = latestDownloadUrl;
+            }
+
+            // Start automatic download/redirection
+            setTimeout(() => {
+              window.location.href = latestDownloadUrl;
+            }, 1000);
+            return;
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch latest app status on client:', error);
+      }
+
+      // Fallback: If client-side fetch fails, use the baked-in URL if it's not '#'
+      const downloadLink = document.getElementById('manual-download-link') as HTMLAnchorElement;
+      if (downloadLink && downloadLink.href && !downloadLink.href.endsWith('#')) {
+        setTimeout(() => {
+          window.location.href = downloadLink.href;
+        }, 1500);
+      }
     }
+
+    // Run on page load
+    initDownload();
   </script>
 </Layout>

@@ -18,15 +18,13 @@ const fileSize = appStatus?.file_size || '';
 
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center max-w-4xl mx-auto">
-      {version && (
-        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold mb-6 animate-fade-in">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-          </span>
-          <span>Versi {version}</span>
-        </div>
-      )}
+      <div id="hero-version-badge" class={`inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold mb-6 animate-fade-in ${!version && 'hidden'}`}>
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+        </span>
+        <span id="hero-version-text">Versi {version}</span>
+      </div>
       
       <h1 class="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-slate-900 leading-[1.1] mb-8">
         Semua Tagihan & Isi Ulang, <span class="text-primary">Gampang Beres</span> dalam Satu Aplikasi!
@@ -46,16 +44,15 @@ const fileSize = appStatus?.file_size || '';
             <span>Download Aplikasi (APK)</span>
           </a>
           <!-- Tooltip -->
-          {fileSize && (
-            <div class="absolute -bottom-12 left-1/2 -translate-x-1/2 w-max opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-              <div class="bg-slate-900 text-white text-xs py-1 px-3 rounded-md">
-                Ukuran {fileSize}, langsung install.
-              </div>
+          <div id="hero-filesize-tooltip" class={`absolute -bottom-12 left-1/2 -translate-x-1/2 w-max opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none ${!fileSize && 'hidden'}`}>
+            <div class="bg-slate-900 text-white text-xs py-1 px-3 rounded-md">
+              Ukuran <span id="hero-filesize-text">{fileSize}</span>, langsung install.
             </div>
-          )}
+          </div>
         </div>
         
         <a 
+          id="hero-whatsapp-link"
           href={whatsappUrl} 
           class="flex items-center space-x-2 text-slate-600 hover:text-primary px-8 py-4 rounded-2xl text-lg font-semibold transition-colors"
         >
@@ -76,3 +73,40 @@ const fileSize = appStatus?.file_size || '';
     animation: fade-in 0.8s ease-out forwards;
   }
 </style>
+
+<script>
+  import { getAppStatus } from '../lib/api';
+
+  async function updateHeroInfo() {
+    try {
+      const appStatus = await getAppStatus();
+      if (appStatus) {
+        // Update version
+        if (appStatus.latest_version) {
+          const versionBadge = document.getElementById('hero-version-badge');
+          const versionText = document.getElementById('hero-version-text');
+          if (versionBadge) versionBadge.classList.remove('hidden');
+          if (versionText) versionText.textContent = `Versi ${appStatus.latest_version}`;
+        }
+
+        // Update WhatsApp link
+        if (appStatus.contact_whatsapp) {
+          const waLink = document.getElementById('hero-whatsapp-link') as HTMLAnchorElement;
+          if (waLink) waLink.href = appStatus.contact_whatsapp;
+        }
+
+        // Update file size
+        if (appStatus.file_size) {
+          const sizeTooltip = document.getElementById('hero-filesize-tooltip');
+          const sizeText = document.getElementById('hero-filesize-text');
+          if (sizeTooltip) sizeTooltip.classList.remove('hidden');
+          if (sizeText) sizeText.textContent = appStatus.file_size;
+        }
+      }
+    } catch (error) {
+      console.error('Failed to update hero info:', error);
+    }
+  }
+
+  updateHeroInfo();
+</script>
