@@ -29,17 +29,26 @@
 </style>
 
 <script>
-  // Hide splash screen when everything is loaded
-  window.addEventListener('load', () => {
+  // Faster reveal using DOMContentLoaded
+  document.addEventListener('DOMContentLoaded', () => {
     const splash = document.getElementById('splash-screen');
     if (splash) {
-      setTimeout(() => { // Optimized
+      // Small timeout to allow initial render
+      setTimeout(() => {
         splash.classList.add('fade-out');
-        // Remove from DOM after transition
-        setTimeout(() => { // Optimized
+        setTimeout(() => {
           splash.remove();
         }, 500);
-      }, 200); // Reduced delay for better PageSpeed
+      }, 50); 
+    }
+  });
+
+  // Fallback: Ensure splash screen is removed if DOMContentLoaded already fired or is slow
+  window.addEventListener('load', () => {
+    const splash = document.getElementById('splash-screen');
+    if (splash && !splash.classList.contains('fade-out')) {
+      splash.classList.add('fade-out');
+      setTimeout(() => splash.remove(), 500);
     }
   });
 </script>
