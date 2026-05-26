@@ -2,7 +2,7 @@ const DEFAULT_API_URL = 'https://api.gampangberes.biz.id/api';
 let rawUrl = import.meta.env.PUBLIC_API_BASE_URL || DEFAULT_API_URL;
 rawUrl = rawUrl.replace(/\/+$/, '');
 if (!rawUrl.endsWith('/api')) {
-  rawUrl = \`\${rawUrl}/api\`;
+  rawUrl = `${rawUrl}/api`;
 }
 export const API_BASE_URL = rawUrl;
 export const BASE_URL = API_BASE_URL.replace(/\/api$/, '');
@@ -28,7 +28,7 @@ export async function getAppStatus() {
 
   const fetchPromise = (async () => {
     try {
-      const response = await fetch(\`\${API_BASE_URL}/app-status\`);
+      const response = await fetch(`${API_BASE_URL}/app-status`);
       if (!response.ok) throw new Error('Network response was not ok');
       const json = await response.json();
       const data = json.data;
@@ -38,13 +38,13 @@ export async function getAppStatus() {
         data.contact_whatsapp = data.whatsapp_links[0];
       } else if (data.contact_whatsapp && data.contact_whatsapp.includes(',')) {
         const firstNum = data.contact_whatsapp.split(',')[0].trim();
-        data.contact_whatsapp = \`https://wa.me/\${firstNum}\`;
+        data.contact_whatsapp = `https://wa.me/${firstNum}`;
       } else if (data.contact_whatsapp && !data.contact_whatsapp.startsWith('http')) {
-        data.contact_whatsapp = \`https://wa.me/\${data.contact_whatsapp.trim()}\`;
+        data.contact_whatsapp = `https://wa.me/${data.contact_whatsapp.trim()}`;
       }
       
       if (data.download_url && !data.download_url.startsWith('http')) {
-        data.download_url = \`\${BASE_URL}\${data.download_url.startsWith('/') ? '' : '/'}\${data.download_url}\`;
+        data.download_url = `${BASE_URL}${data.download_url.startsWith('/') ? '' : '/'}${data.download_url}`;
       }
 
       // Defer file size fetch or skip on client if possible
@@ -55,7 +55,7 @@ export async function getAppStatus() {
           const size = fileRes.headers.get('content-length');
           if (size) {
             const mb = parseInt(size) / (1024 * 1024);
-            data.file_size = \`~\${Math.round(mb)} MB\`;
+            data.file_size = `~${Math.round(mb)} MB`;
           }
         } catch (e) {}
       }
@@ -85,7 +85,7 @@ export async function getWhatsAppContacts() {
     if (contacts.length === 0) return [];
     return contacts.map(num => ({
       number: num,
-      link: num.startsWith('http') ? num : \`https://wa.me/\${num}\`
+      link: num.startsWith('http') ? num : `https://wa.me/${num}`
     }));
   } catch (error) {
     return [];
@@ -94,7 +94,7 @@ export async function getWhatsAppContacts() {
 
 export async function getBanners() {
   try {
-    const response = await fetch(\`\${API_BASE_URL}/banners\`);
+    const response = await fetch(`${API_BASE_URL}/banners`);
     if (!response.ok) return [];
     const json = await response.json();
     return json.success ? json.data : [];
@@ -105,7 +105,7 @@ export async function getBanners() {
 
 export async function getAnnouncements() {
   try {
-    const response = await fetch(\`\${API_BASE_URL}/announcements\`);
+    const response = await fetch(`${API_BASE_URL}/announcements`);
     if (!response.ok) return [];
     const json = await response.json();
     return json.success ? json.data : [];
@@ -116,7 +116,7 @@ export async function getAnnouncements() {
 
 export async function getTerms() {
   try {
-    const response = await fetch(\`\${API_BASE_URL}/legal/terms\`);
+    const response = await fetch(`${API_BASE_URL}/legal/terms`);
     if (!response.ok) return null;
     const json = await response.json();
     return json.data;
@@ -127,7 +127,7 @@ export async function getTerms() {
 
 export async function getPrivacy() {
   try {
-    const response = await fetch(\`\${API_BASE_URL}/legal/privacy\`);
+    const response = await fetch(`${API_BASE_URL}/legal/privacy`);
     if (!response.ok) return null;
     const json = await response.json();
     return json.data;
