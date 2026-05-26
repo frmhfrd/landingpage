@@ -26,10 +26,10 @@ const { title, description = "Gampang Beres - Semua Tagihan & Isi Ulang dalam Sa
 		<!-- API Connectivity Optimization -->
 		<link rel="preconnect" href="https://api.gampangberes.biz.id" crossorigin>
 		<link rel="dns-prefetch" href="https://api.gampangberes.biz.id">
-		<link rel="preload" href="https://api.gampangberes.biz.id/api/app-status" as="fetch" crossorigin>
+		<link rel="preload" href="https://api.gampangberes.biz.id/api/app-status" as="fetch" crossorigin fetchpriority="high">
 		
 		<!-- Preload Critical Assets -->
-		<link rel="preload" as="image" href="/images/logo/logo-nobg.webp" type="image/webp">
+		<link rel="preload" as="image" href="/images/logo/logo-nobg.webp" type="image/webp" fetchpriority="high">
 		
 		<!-- Optimized Font Loading -->
 		<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
