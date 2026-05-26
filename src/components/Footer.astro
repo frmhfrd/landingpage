@@ -15,18 +15,18 @@ const whatsappUrl = appStatus?.contact_whatsapp || '#';
       <!-- Logo & Slogan -->
       <div class="lg:col-span-1">
         <div class="flex items-center space-x-2 mb-6">
-          <img src="/images/logo/logo-nobg.webp" alt="Gampang Beres Logo" class="h-10 w-auto" width="140" height="40" brightness-0 invert" />
+          <img src="/images/logo/logo-nobg.webp" alt="Gampang Beres Logo" class="h-10 w-auto brightness-0 invert" width="140" height="40" />
           <div class="text-2xl font-extrabold text-white">
             Gampang<span class="text-primary">Beres</span>
           </div>
         </div>
-        <p class="text-slate-400 leading-relaxed mb-6">
+        <p class="text-slate-300 leading-relaxed mb-6">
           Bikin semua urusan pembayaran jadi gampang dan beres. Platform andalan untuk solusi digital Anda.
         </p>
         <a 
           id="footer-whatsapp-link"
           href={whatsappUrl} 
-          class="inline-flex items-center space-x-2 text-primary font-bold hover:text-white transition-colors"
+          class="inline-flex items-center space-x-2 text-blue-400 font-bold hover:text-white transition-colors"
         >
           <MessageCircle class="w-5 h-5" />
           <span>WhatsApp Customer Service</span>
@@ -35,7 +35,7 @@ const whatsappUrl = appStatus?.contact_whatsapp || '#';
 
       <!-- Quick Links -->
       <div>
-        <h4 class="text-lg font-bold mb-6">Menu</h4>
+        <h3 class="text-lg font-bold mb-6">Menu</h3>
         <ul class="space-y-4 text-slate-400">
           <li><a href="/#beranda" class="hover:text-primary transition-colors">Beranda</a></li>
           <li><a href="/#fitur" class="hover:text-primary transition-colors">Fitur</a></li>
@@ -46,7 +46,7 @@ const whatsappUrl = appStatus?.contact_whatsapp || '#';
 
       <!-- Legal -->
       <div>
-        <h4 class="text-lg font-bold mb-6">Bantuan & Legal</h4>
+        <h3 class="text-lg font-bold mb-6">Bantuan & Legal</h3>
         <ul class="space-y-4 text-slate-400">
           <li><a href="/#faq" class="hover:text-primary transition-colors">FAQ</a></li>
           <li><a href="/terms" class="hover:text-primary transition-colors">Syarat & Ketentuan</a></li>
@@ -56,18 +56,18 @@ const whatsappUrl = appStatus?.contact_whatsapp || '#';
 
       <!-- App Status -->
       <div>
-        <h4 class="text-lg font-bold mb-6">Status Aplikasi</h4>
+        <h3 class="text-lg font-bold mb-6">Status Aplikasi</h3>
         <div class="bg-slate-800 p-4 rounded-xl">
           <div class="flex items-center space-x-3 mb-2">
             <div id="server-status-indicator" class={`w-2 h-2 rounded-full ${isMaintenance ? 'bg-yellow-500' : 'bg-green-500 animate-pulse'}`}></div>
             <span id="server-status-text" class="text-sm font-semibold">Server: {isMaintenance ? 'Maintenance' : 'Online'}</span>
           </div>
-          <p id="footer-version" class={`text-xs text-slate-500 ${!version && 'hidden'}`}>Versi: {version}</p>
+          <p id="footer-version" class={`text-xs text-slate-300 ${!version && 'hidden'}`}>Versi: {version}</p>
         </div>
       </div>
     </div>
 
-    <div class="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500 font-medium">
+    <div class="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-300 font-medium">
       <p>© {year} Gampang Beres. All rights reserved.</p>
       <div class="flex items-center space-x-8">
         <span>Made with ❤️ for Indonesia</span>

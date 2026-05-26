@@ -14,11 +14,11 @@ const contacts = await getWhatsAppContacts();
     <div class="bg-primary p-6 text-white">
       <div class="flex justify-between items-center mb-2">
         <h3 class="font-bold text-lg">Hubungi Kami</h3>
-        <button id="close-whatsapp" class="hover:bg-white/20 p-1 rounded-full transition-colors">
+        <button id="close-whatsapp" class="hover:bg-white/20 p-1 rounded-full transition-colors" aria-label="Tutup menu WhatsApp">
           <X class="w-5 h-5" />
         </button>
       </div>
-      <p class="text-white/80 text-sm">Pilih salah satu nomor WhatsApp di bawah untuk memulai chat.</p>
+      <p class="text-white text-sm">Pilih salah satu nomor WhatsApp di bawah untuk memulai chat.</p>
     </div>
     
     <div id="whatsapp-contacts-container" class="p-4 space-y-3 max-h-96 overflow-y-auto">
@@ -41,7 +41,7 @@ const contacts = await getWhatsAppContacts();
     </div>
     
     <div class="bg-slate-50 p-4 text-center">
-      <p class="text-xs text-slate-400 font-medium">Jam Operasional: 08.00 - 22.00 WIB</p>
+      <p class="text-xs text-slate-600 font-medium">Jam Operasional: 08.00 - 22.00 WIB</p>
     </div>
   </div>
 
