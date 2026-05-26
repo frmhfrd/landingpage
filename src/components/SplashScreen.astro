@@ -4,7 +4,7 @@
   <div class="relative">
     <!-- Logo Container -->
     <div class="w-24 h-24 mb-8 relative animate-pulse">
-      <img src="/images/logo/gampangberes.png" alt="Logo" class="w-full h-full object-contain" />
+      <img src="/images/logo/gampangberes.png" alt="Logo" class="w-full h-full object-contain" width="96" height="96" />
     </div>
     
     <!-- Loading Spinner -->
@@ -33,13 +33,13 @@
   window.addEventListener('load', () => {
     const splash = document.getElementById('splash-screen');
     if (splash) {
-      setTimeout(() => {
+      setTimeout(() => { // Optimized
         splash.classList.add('fade-out');
         // Remove from DOM after transition
-        setTimeout(() => {
+        setTimeout(() => { // Optimized
           splash.remove();
         }, 500);
-      }, 800); // Small delay for visual polish
+      }, 200); // Reduced delay for better PageSpeed
     }
   });
 </script>
