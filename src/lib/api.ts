@@ -1,10 +1,19 @@
 const DEFAULT_API_URL = 'https://api.gampangberes.biz.id/api';
-const RAW_API_URL = import.meta.env.PUBLIC_API_BASE_URL || DEFAULT_API_URL;
+// Use the env var if available, otherwise use default
+let rawUrl = import.meta.env.PUBLIC_API_BASE_URL || DEFAULT_API_URL;
 
-// Ensure API_BASE_URL ends with /api and no trailing slash
-export const API_BASE_URL = RAW_API_URL.endsWith('/') ? RAW_API_URL.slice(0, -1) : RAW_API_URL;
-// Ensure BASE_URL is the root domain without /api
-export const BASE_URL = API_BASE_URL.replace(/\/api$/, '').replace(/\/api\/$/, '');
+// 1. Remove any trailing slashes for consistency
+rawUrl = rawUrl.replace(/\/+$/, '');
+
+// 2. FORCE /api prefix if it's missing (this is likely why it fails in production)
+if (!rawUrl.endsWith('/api')) {
+  rawUrl = `${rawUrl}/api`;
+}
+
+export const API_BASE_URL = rawUrl;
+
+// 3. Construct BASE_URL (root domain) by removing /api
+export const BASE_URL = API_BASE_URL.replace(/\/api$/, '');
 
 export const formatCurrency = (value: number | string | undefined | null) => {
   if (value === undefined || value === null) return '';
