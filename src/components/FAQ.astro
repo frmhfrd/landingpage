@@ -85,7 +85,7 @@ const faqs = [
       // Toggle current FAQ
       if (answer) {
         const isOpening = (answer as HTMLElement).style.maxHeight === '0px' || (answer as HTMLElement).style.maxHeight === '';
-        (answer as HTMLElement).style.maxHeight = isOpening ? `${(answer as HTMLElement).scrollHeight}px` : '0';
+        (answer as HTMLElement).style.maxHeight = isOpening ? '500px' : '0';
         icon?.classList.toggle('rotate-180', isOpening);
       }
     });
