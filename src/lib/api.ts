@@ -1,5 +1,10 @@
-const API_BASE_URL = import.meta.env.PUBLIC_API_BASE_URL;
-const BASE_URL = API_BASE_URL.replace('/api', '');
+const DEFAULT_API_URL = 'https://api.gampangberes.biz.id/api';
+const RAW_API_URL = import.meta.env.PUBLIC_API_BASE_URL || DEFAULT_API_URL;
+
+// Ensure API_BASE_URL ends with /api and no trailing slash
+export const API_BASE_URL = RAW_API_URL.endsWith('/') ? RAW_API_URL.slice(0, -1) : RAW_API_URL;
+// Ensure BASE_URL is the root domain without /api
+export const BASE_URL = API_BASE_URL.replace(/\/api$/, '').replace(/\/api\/$/, '');
 
 export const formatCurrency = (value: number | string | undefined | null) => {
   if (value === undefined || value === null) return '';
