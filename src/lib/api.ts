@@ -50,28 +50,47 @@ export async function getAppStatus() {
       // Fetch file size if missing and we have a valid download URL
       if (data.download_url && data.download_url.startsWith('http') && !data.file_size) {
         try {
-          // Try to fetch file size via HEAD request
-          // We follow redirects because GitHub/CDN links often redirect
+          // Use Range header to force some servers to return the actual file size
+          // and follow redirects because GitHub/CDN links often redirect
           const fetchOptions: RequestInit = { 
-            method: 'HEAD', 
+            method: 'GET', // Some servers ignore Content-Length on HEAD
+            headers: {
+              'Range': 'bytes=0-0' // Only fetch the first byte to get the total size
+            },
             redirect: 'follow',
-            // Add a signal to timeout if it takes too long
           };
           
           const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 3000);
+          const timeoutId = setTimeout(() => controller.abort(), 4000);
           fetchOptions.signal = controller.signal;
 
           const fileRes = await fetch(data.download_url, fetchOptions);
           clearTimeout(timeoutId);
           
-          const size = fileRes.headers.get('content-length');
-          if (size) {
-            const mb = parseInt(size) / (1024 * 1024);
-            data.file_size = `~${Math.round(mb)} MB`;
+          // When using Range, the total size is often in 'Content-Range' instead of 'Content-Length'
+          // Content-Range: bytes 0-0/12345
+          const contentRange = fileRes.headers.get('content-range');
+          const contentLength = fileRes.headers.get('content-length');
+          
+          let totalBytes = 0;
+          if (contentRange) {
+            const parts = contentRange.split('/');
+            if (parts.length > 1) totalBytes = parseInt(parts[1]);
+          } else if (contentLength) {
+            totalBytes = parseInt(contentLength);
+          }
+
+          if (totalBytes > 0) {
+            const mb = totalBytes / (1024 * 1024);
+            if (mb < 1) {
+              const kb = Math.round(totalBytes / 1024);
+              data.file_size = `~${kb} KB`;
+            } else {
+              data.file_size = `~${Math.round(mb)} MB`;
+            }
           }
         } catch (e) {
-          // Silently fail if we can't get the size (common on client-side due to CORS)
+          // Silently fail
         }
       }
       return data;
