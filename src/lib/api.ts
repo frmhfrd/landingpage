@@ -47,15 +47,16 @@ export async function getAppStatus() {
         data.download_url = `${BASE_URL}${data.download_url.startsWith('/') ? '' : '/'}${data.download_url}`;
       }
 
-      // Fetch file size if missing and we have a valid download URL
-      if (data.download_url && data.download_url.startsWith('http') && !data.file_size) {
+      // ONLY FETCH FILE SIZE ON SERVER-SIDE
+      // This bypasses CORS and prevents errors in the browser console.
+      const isServer = typeof window === 'undefined';
+      
+      if (isServer && data.download_url && data.download_url.startsWith('http') && !data.file_size) {
         try {
-          // Use Range header to force some servers to return the actual file size
-          // and follow redirects because GitHub/CDN links often redirect
           const fetchOptions: RequestInit = { 
-            method: 'GET', // Some servers ignore Content-Length on HEAD
+            method: 'GET',
             headers: {
-              'Range': 'bytes=0-0' // Only fetch the first byte to get the total size
+              'Range': 'bytes=0-0'
             },
             redirect: 'follow',
           };
@@ -67,8 +68,6 @@ export async function getAppStatus() {
           const fileRes = await fetch(data.download_url, fetchOptions);
           clearTimeout(timeoutId);
           
-          // When using Range, the total size is often in 'Content-Range' instead of 'Content-Length'
-          // Content-Range: bytes 0-0/12345
           const contentRange = fileRes.headers.get('content-range');
           const contentLength = fileRes.headers.get('content-length');
           
@@ -80,17 +79,17 @@ export async function getAppStatus() {
             totalBytes = parseInt(contentLength);
           }
 
-          if (totalBytes > 0) {
+          if (totalBytes > 1024 * 100) { 
             const mb = totalBytes / (1024 * 1024);
             if (mb < 1) {
-              const kb = Math.round(totalBytes / 1024);
+              const kb = Math.max(1, Math.round(totalBytes / 1024));
               data.file_size = `~${kb} KB`;
             } else {
               data.file_size = `~${Math.round(mb)} MB`;
             }
           }
         } catch (e) {
-          // Silently fail
+          // Silently fail on server
         }
       }
       return data;
