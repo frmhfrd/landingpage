@@ -51,9 +51,9 @@ if (changelog) {
                 <span class="text-slate-500">Versi Terbaru</span>
                 <span id="latest-version" class="font-bold text-slate-900">{version || '-'}</span>
               </div>
-              <div class="flex justify-between">
+              <div id="file-size-container" class={`flex justify-between ${!fileSize && 'hidden'}`}>
                 <span class="text-slate-500">Ukuran File</span>
-                <span id="file-size" class="font-bold text-slate-900">{fileSize || '-'}</span>
+                <span id="file-size" class="font-bold text-slate-900">{fileSize}</span>
               </div>
               {message && (
                 <div class="pt-2">
@@ -124,7 +124,9 @@ if (changelog) {
           }
           if (appStatus.file_size) {
             const sizeEl = document.getElementById('file-size');
+            const sizeContainer = document.getElementById('file-size-container');
             if (sizeEl) sizeEl.textContent = appStatus.file_size;
+            if (sizeContainer) sizeContainer.classList.remove('hidden');
           }
 
           if (latestDownloadUrl && latestDownloadUrl !== '#') {

@@ -47,17 +47,32 @@ export async function getAppStatus() {
         data.download_url = `${BASE_URL}${data.download_url.startsWith('/') ? '' : '/'}${data.download_url}`;
       }
 
-      // Defer file size fetch or skip on client if possible
-      /* Defer or skip file size fetch on client to reduce chaining */
-      if (false && data.download_url && data.download_url.startsWith('http') && !data.file_size) {
+      // Fetch file size if missing and we have a valid download URL
+      if (data.download_url && data.download_url.startsWith('http') && !data.file_size) {
         try {
-          const fileRes = await fetch(data.download_url, { method: 'HEAD' });
+          // Try to fetch file size via HEAD request
+          // We follow redirects because GitHub/CDN links often redirect
+          const fetchOptions: RequestInit = { 
+            method: 'HEAD', 
+            redirect: 'follow',
+            // Add a signal to timeout if it takes too long
+          };
+          
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 3000);
+          fetchOptions.signal = controller.signal;
+
+          const fileRes = await fetch(data.download_url, fetchOptions);
+          clearTimeout(timeoutId);
+          
           const size = fileRes.headers.get('content-length');
           if (size) {
             const mb = parseInt(size) / (1024 * 1024);
             data.file_size = `~${Math.round(mb)} MB`;
           }
-        } catch (e) {}
+        } catch (e) {
+          // Silently fail if we can't get the size (common on client-side due to CORS)
+        }
       }
       return data;
     } catch (error) {
