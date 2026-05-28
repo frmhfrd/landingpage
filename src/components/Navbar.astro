@@ -76,15 +76,17 @@ const downloadUrl = '/download';
     closeIcon?.classList.toggle('hidden');
   });
 
-  // Close menu when clicking links
+  // Close menu when clicking hash links
   const mobileLinks = mobileMenu?.querySelectorAll('a');
   mobileLinks?.forEach(link => {
-    link.addEventListener('click', () => {
-      setTimeout(() => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      // Only hide menu immediately for internal hash links
+      if (href && (href.startsWith('#') || href.includes('/#'))) {
         mobileMenu?.classList.add('hidden');
         menuIcon?.classList.remove('hidden');
         closeIcon?.classList.add('hidden');
-      }, 150);
+      }
     });
   });
 
