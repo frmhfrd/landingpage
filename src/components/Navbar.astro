@@ -25,6 +25,7 @@ const downloadUrl = '/download';
         <a href="/#kemitraan" class="text-sm font-medium text-slate-600 hover:text-primary transition-colors">Kemitraan</a>
         <a href="/#faq" class="text-sm font-medium text-slate-600 hover:text-primary transition-colors">FAQ</a>
         <a 
+          id="desktop-download-link"
           href={downloadUrl} 
           class="bg-primary hover:bg-primary-dark text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-all transform hover:scale-105 shadow-lg shadow-primary/20"
         >
@@ -51,6 +52,7 @@ const downloadUrl = '/download';
     <a href="/#faq" class="block px-3 py-4 text-base font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-lg">FAQ</a>
     <div class="pt-4 px-3">
       <a 
+        id="mobile-download-link"
         href={downloadUrl} 
         class="block w-full text-center bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-xl text-base font-bold shadow-lg shadow-primary/20"
       >
@@ -61,6 +63,8 @@ const downloadUrl = '/download';
 </nav>
 
 <script>
+  import { getAppStatus } from '../lib/api';
+
   const mobileMenuButton = document.getElementById('mobile-menu-button');
   const mobileMenu = document.getElementById('mobile-menu');
   const menuIcon = document.getElementById('menu-icon');
@@ -81,4 +85,22 @@ const downloadUrl = '/download';
       closeIcon?.classList.add('hidden');
     });
   });
+
+  // Update Download APK links dynamically
+  async function updateNavbarLinks() {
+    try {
+      const appStatus = await getAppStatus();
+      if (appStatus && appStatus.download_url) {
+        const desktopLink = document.getElementById('desktop-download-link') as HTMLAnchorElement;
+        const mobileLink = document.getElementById('mobile-download-link') as HTMLAnchorElement;
+        
+        if (desktopLink) desktopLink.href = appStatus.download_url;
+        if (mobileLink) mobileLink.href = appStatus.download_url;
+      }
+    } catch (error) {
+      console.error('Failed to update navbar links:', error);
+    }
+  }
+
+  updateNavbarLinks();
 </script>

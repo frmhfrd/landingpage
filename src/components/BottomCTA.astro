@@ -23,17 +23,46 @@ const fileSize = appStatus?.file_size || '';
         </p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a 
+            id="bottom-download-link"
             href={downloadUrl} 
             class="flex items-center space-x-3 bg-white text-primary px-10 py-5 rounded-2xl text-xl font-bold transition-all transform hover:scale-105 hover:shadow-xl"
           >
-            <Download class="w-6 h-6" />
+            <Download class="w-6 h-6 animate-bounce" />
             <span>Download APK Sekarang</span>
           </a>
         </div>
         <p class="mt-6 text-slate-100 text-sm font-medium">
-          Mendukung Android 5.0 ke atas {fileSize && `• Ukuran file ${fileSize}`}
+          Mendukung Android 5.0 ke atas <span id="bottom-filesize-text" class={!fileSize ? 'hidden' : ''}>• Ukuran file {fileSize}</span>
         </p>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  import { getAppStatus } from '../lib/api';
+
+  async function updateBottomCTA() {
+    try {
+      const appStatus = await getAppStatus();
+      if (appStatus) {
+        if (appStatus.download_url) {
+          const downloadLink = document.getElementById('bottom-download-link') as HTMLAnchorElement;
+          if (downloadLink) downloadLink.href = appStatus.download_url;
+        }
+        
+        if (appStatus.file_size) {
+          const sizeText = document.getElementById('bottom-filesize-text');
+          if (sizeText) {
+            sizeText.textContent = `• Ukuran file ${appStatus.file_size}`;
+            sizeText.classList.remove('hidden');
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Failed to update BottomCTA:', error);
+    }
+  }
+
+  updateBottomCTA();
+</script>

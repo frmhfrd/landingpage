@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gampangberes.biz.id/sitemap-index.xml
