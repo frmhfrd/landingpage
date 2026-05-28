@@ -45,7 +45,7 @@ const fileSize = appStatus?.file_size || '';
             <span>Download Aplikasi (APK)</span>
           </a>
           <!-- Tooltip -->
-          <div id="hero-filesize-tooltip" class={`absolute -bottom-12 left-1/2 -translate-x-1/2 w-max opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none ${!fileSize && 'hidden'}`}>
+          <div id="hero-filesize-tooltip" class={`hidden md:block absolute -bottom-12 left-1/2 -translate-x-1/2 w-max opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none ${!fileSize ? '!hidden' : ''}`}>
             <div class="bg-slate-900 text-white text-xs py-1 px-3 rounded-md">
               Ukuran <span id="hero-filesize-text">{fileSize}</span>, langsung install.
             </div>
