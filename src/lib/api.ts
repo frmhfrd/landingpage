@@ -47,11 +47,20 @@ export async function getAppStatus() {
         data.download_url = `${BASE_URL}${data.download_url.startsWith('/') ? '' : '/'}${data.download_url}`;
       }
 
-      // ONLY FETCH FILE SIZE ON SERVER-SIDE
+      // ONLY FETCH FILE SIZE ON SERVER-SIDE IF NOT PROVIDED BY BACKEND
       // This bypasses CORS and prevents errors in the browser console.
       const isServer = typeof window === 'undefined';
       
-      if (isServer && data.download_url && data.download_url.startsWith('http') && !data.file_size) {
+      if (data.app_size && data.app_size > 0) {
+        const totalBytes = data.app_size;
+        const mb = totalBytes / (1024 * 1024);
+        if (mb < 1) {
+          const kb = Math.max(1, Math.round(totalBytes / 1024));
+          data.file_size = `~${kb} KB`;
+        } else {
+          data.file_size = `~${Math.round(mb * 10) / 10} MB`;
+        }
+      } else if (isServer && data.download_url && data.download_url.startsWith('http') && !data.file_size) {
         try {
           const fetchOptions: RequestInit = { 
             method: 'GET',
